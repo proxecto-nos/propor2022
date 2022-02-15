@@ -2,7 +2,10 @@
 NÓS Project
 
 ## Requirments
-* OpenNMT-py
+* OpenNMT-py:
+```
+pip install OpenNMT-py
+```
 
 ## How to use
 * Load the translation models:
