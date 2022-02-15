@@ -1,7 +1,7 @@
 # Galician Translation
 NÓS Project
 
-## Requirments
+## Requirements
 * OpenNMT-py:
 ```
 pip install OpenNMT-py
