@@ -10,7 +10,7 @@ NÓS Project
 bash loading_models.sh
 ```
 
-* And to translate a text, use comand trans.sh:
+* To translate a text, use comand trans.sh as follows:
 ```
-./trans.sh es gl \"mi padre trabaja en la universidad\" lstm
+./trans.sh es gl "mi padre trabaja en la universidad" lstm
 ```
