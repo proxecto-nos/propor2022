@@ -1,10 +1,10 @@
-#Galician Translation
-NÃs Project
+# Galician Translation
+NÓS Project
 
-##Requirments
+## Requirments
 * OpenNMT-py
 
-##How to use
+## How to use
 * Load the translation models:
 ```
 bash loading_models.sh
