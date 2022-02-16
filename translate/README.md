@@ -1,5 +1,5 @@
 # Galician Translation
-NÓS Project
+NÃ“S Project
 
 ## Requirements
 * OpenNMT-py:
