@@ -6,7 +6,7 @@
 ###################################################################
 # Command to choose both translation languages and systems
 # 
-# NÓS Project
+# NOS Project
 ###################################################################
 
 ############################
@@ -14,7 +14,9 @@
 ############################
 
 ModelLSTM="./models/lstm"
-ModelTransformer="./model/transf"
+ModelTransformer="./models/transf"
+ModelSP="./models/sp/"
+LIB="./lib"
 lang1=$1
 lang2=$2
 input=$3
@@ -79,3 +81,18 @@ if [ "$lang1" == "es" ] && [ "$lang2" == "gl" ]  && [ "$system" == "lstm" ] ; th
    echo "Translating " $lang1"->"$lang2 " with "$system
    onmt_translate -model $ModelLSTM"/"$lang1"-"$lang2".lstm" -src $input_file -output $output_file -gpu -0 -verbose -replace_unk
 fi
+
+if [ "$lang1" == "es" ] && [ "$lang2" == "gl" ]  && [ "$system" == "transf" ] ; then
+   
+   echo "Tokenizing " $lang1 "with sentencepiece"
+   python $LIB/spm_encode.py --model=$ModelSP"/"$lang1".sp.model" < $input_file > ./tmp/_sp_$lang1
+	
+   echo "Translating " $lang1"->"$lang2 " with "$system
+   onmt_translate  -gpu 0 -batch_size 16384 -batch_type tokens -beam_size 5 -model $ModelTransformer"/"$lang1"-"$lang2".transf"  -src ./tmp/_sp_$lang1  -output ./tmp/_sp_$lang2 
+   
+   echo "decoding output"
+   python $LIB/spm_decode.py --model=$ModelSP"/"$lang2".sp.model" --input_format=piece < ./tmp/_sp_$lang2 > $output_file
+
+fi
+
+
