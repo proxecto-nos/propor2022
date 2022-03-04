@@ -79,7 +79,7 @@ input_file="./input_output/input.txt"
 
 if [ "$lang1" == "es" ]  || [ "$lang1" == "en" ]  && [ "$lang2" == "gl" ]  && [ "$system" == "lstm" ] ; then
    echo "Translating " $lang1"->"$lang2 " with "$system
-   onmt_translate -model $ModelLSTM"/"$lang1"-"$lang2".lstm" -src $input_file -output $output_file -gpu -0 -verbose -replace_unk
+   onmt_translate -model $ModelLSTM"/"$lang1"-"$lang2".lstm" -src $input_file -output $output_file -gpu -1 -verbose -replace_unk
 fi
 
 if [ "$lang1" == "es" ] || [ "$lang1" == "en" ]  && [ "$lang2" == "gl" ]  && [ "$system" == "transf" ] ; then
@@ -88,7 +88,7 @@ if [ "$lang1" == "es" ] || [ "$lang1" == "en" ]  && [ "$lang2" == "gl" ]  && [ "
    python $LIB/spm_encode.py --model=$ModelSP"/"${lang1}"-"${lang2}"."$lang1".sp" < $input_file > ./tmp/_sp_$lang1
 	
    echo "Translating " $lang1"->"$lang2 " with "$system
-   onmt_translate  -gpu 0 -batch_size 16384 -batch_type tokens -beam_size 5 -model $ModelTransformer"/"$lang1"-"$lang2".transf"  -src ./tmp/_sp_$lang1  -output ./tmp/_sp_$lang2 
+   onmt_translate  -gpu -1 -batch_size 16384 -batch_type tokens -beam_size 5 -model $ModelTransformer"/"$lang1"-"$lang2".transf"  -src ./tmp/_sp_$lang1  -output ./tmp/_sp_$lang2 
    
    echo "decoding output"
    python $LIB/spm_decode.py --model=$ModelSP"/"${lang1}"-"${lang2}"."$lang2".sp" --input_format=piece < ./tmp/_sp_$lang2 > $output_file
