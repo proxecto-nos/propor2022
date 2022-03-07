@@ -15,7 +15,7 @@
 
 ModelLSTM="./models/lstm"
 ModelTransformer="./models/transf"
-ModelSP="./models/sp/"
+ModelSP="./models/sp"
 LIB="./lib"
 lang1=$1
 lang2=$2
