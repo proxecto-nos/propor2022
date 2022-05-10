@@ -79,19 +79,19 @@ input_file="./input_output/input.txt"
 
 if [ "$lang1" == "es" ]  || [ "$lang1" == "en" ]  && [ "$lang2" == "gl" ]  && [ "$system" == "lstm" ] ; then
    echo "Classic tokenization of the input text"
-   cat  $input_file | ./tokenizer.perl > __temp ; mv __temp $input_file
+   cat  $input_file | $LIB/tokenizer.perl > __temp ; mv __temp $input_file
    
    echo "Translating " $lang1"->"$lang2 " with "$system
    onmt_translate -model $ModelLSTM"/"$lang1"-"$lang2".lstm" -src $input_file -output $output_file -gpu -1 -verbose -replace_unk
 
    echo "Detokenizing the output text"
-   cat  $output_file | ./detokenizer.perl > __temp ; mv __temp $output_file
+   cat  $output_file | $LIB/detokenizer.perl > __temp ; mv __temp $output_file
 fi
 
 if [ "$lang1" == "es" ] || [ "$lang1" == "en" ]  && [ "$lang2" == "gl" ]  && [ "$system" == "transf" ] ; then
    
    echo "Classic tokenization of the input text"
-   cat  $input_file | ./tokenizer.perl > __temp ; mv __temp $input_file
+   cat  $input_file | $LIB/tokenizer.perl > __temp ; mv __temp $input_file
    
    echo "Tokenizing " $lang1 "with sentencepiece"
    python3 $LIB/spm_encode.py --model=$ModelSP"/"${lang1}"-"${lang2}"."$lang1".sp" < $input_file > ./tmp/_sp_$lang1
@@ -103,7 +103,7 @@ if [ "$lang1" == "es" ] || [ "$lang1" == "en" ]  && [ "$lang2" == "gl" ]  && [ "
    python3 $LIB/spm_decode.py --model=$ModelSP"/"${lang1}"-"${lang2}"."$lang2".sp" --input_format=piece < ./tmp/_sp_$lang2 > $output_file
 
    echo "Detokenizing the output text"
-   cat  $output_file | ./detokenizer.perl > __temp ; mv __temp $ouput_file
+   cat  $output_file | $LIB/detokenizer.perl > __temp ; mv __temp $ouput_file
 
 fi
 
