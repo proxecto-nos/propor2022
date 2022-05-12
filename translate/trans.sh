@@ -103,7 +103,7 @@ if [ "$lang1" == "es" ] || [ "$lang1" == "en" ]  && [ "$lang2" == "gl" ]  && [ "
    python3 $LIB/spm_decode.py --model=$ModelSP"/"${lang1}"-"${lang2}"."$lang2".sp" --input_format=piece < ./tmp/_sp_$lang2 > $output_file
 
    echo "Detokenizing the output text"
-   cat  $output_file | $LIB/detokenizer.perl > __temp ; mv __temp $ouput_file
+   cat  $output_file | $LIB/detokenizer.perl > __temp ; mv __temp $output_file
 
 fi
 

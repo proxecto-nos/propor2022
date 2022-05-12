@@ -28,7 +28,7 @@ $abs_path = dirname(__FILE__);#<ignore-line>
 my $UpperCase = "[A-ZÁÉÍÓÚÀÈÌÒÙÂÊÎÔÛÑÇÜ]";#<string>
 my $LowerCase = "[a-záéíóúàèìòùâêîôûñçü]";#<string>
 #my $Punct =  qr/[\.\,\;\«\»\“\”\'\"\&\$\#\=\(\)\<\>\!\¡\?\¿\\\[\]\{\}\|\^\*\€\·\¬\…]/;#<string>
-my $Punct =  qr/[\.\,\;\»\”\&\$\#\=\)\>\!\?\]\}\|\^\*\€\·\¬\…]/;#<string>
+my $Punct =  qr/[\,\;\»\”\&\$\#\=\)\>\!\?\]\}\|\^\*\€\·\¬\…]/;#<string>
 my $Punct_urls = qr/[\:\/\~]/;#<string>
 my $Punct_open =  qr/[\«\“\(\<\¡\¿\\\[\{]/;#<string>
 
@@ -77,6 +77,7 @@ sub tokens {
 		$sentence =~ s/([0-9]+)\'([0-9]+)/${1}$quote_quant$2/g ;
 
 		#print STDERR "#$sentence#\n";
+		
 		$sentence =~ s/ ($Punct) /$1 /g ;
                 $sentence =~ s/ ($Punct_open) / $1/g ;
 		#print STDERR "2#$sentence#\n";
@@ -89,7 +90,7 @@ sub tokens {
 		$sentence =~ s/^- (\w)/-$1/g  ;
 
 
-		$sentence =~ s/[\s]*\.$/\./g  ; ##ponto final
+		$sentence =~ s/[\s]*\./\./g  ; ##ponto 
 
 		my @tokens = split (" ", $sentence);#<array><string> 
 
