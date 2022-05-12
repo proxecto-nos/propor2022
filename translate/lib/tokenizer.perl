@@ -28,7 +28,9 @@ $abs_path = dirname(__FILE__);#<ignore-line>
 my $UpperCase = "[A-ZÁÉÍÓÚÀÈÌÒÙÂÊÎÔÛÑÇÜ]";#<string>
 my $LowerCase = "[a-záéíóúàèìòùâêîôûñçü]";#<string>
 my $Punct =  qr/[\.\,\;\«\»\“\”\'\"\&\$\#\=\(\)\<\>\!\¡\?\¿\\\[\]\{\}\|\^\*\€\·\¬\…]/;#<string>
+#my $Punct =  qr/[\.\,\;\»\”\&\$\#\=\)\>\!\?\]\}\|\^\*\€\·\¬\…]/;#<string>
 my $Punct_urls = qr/[\:\/\~]/;#<string>
+#my $Punct_open =  qr/[\«\“\(\<\¡\¿\\\[\{]/;#<string>
 
 ##para splitter:
 ##########INFORMAÇAO DEPENDENTE DA LINGUA###################
