@@ -82,7 +82,7 @@ if [ "$lang1" == "es" ]  || [ "$lang1" == "en" ]  && [ "$lang2" == "gl" ]  && [ 
    cat  $input_file | $LIB/tokenizer.perl > __temp ; mv __temp $input_file
    
    echo "Translating " $lang1"->"$lang2 " with "$system
-   onmt_translate -model $ModelLSTM"/"$lang1"-"$lang2".lstm" -src $input_file -output $output_file -gpu -1 -verbose -replace_unk
+   onmt_translate -model $ModelLSTM"/"$lang1"-"$lang2".lstm" -src $input_file -output $output_file -gpu -1 -verbose -phrase_table phrase_table.txt -replace_unk
 
    echo "Detokenizing the output text"
    cat  $output_file | $LIB/detokenizer.perl > __temp ; mv __temp $output_file
