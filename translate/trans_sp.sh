@@ -15,7 +15,7 @@
 
 ModelLSTM="./models/lstm"
 ModelTransformer="./models/transf"
-ModelBPE="./models/bpe"
+ModelSP="./models/sp"
 LIB="./lib"
 lang1=$1
 lang2=$2
@@ -93,14 +93,14 @@ if [ "$lang1" == "es" ] || [ "$lang1" == "en" ]  && [ "$lang2" == "gl" ]  && [ "
    echo "Classic tokenization of the input text"
    cat  $input_file | $LIB/tokenizer.perl > __temp ; mv __temp $input_file
    
-   echo "Tokenizing " $lang1 "with bpe"
-   sh $LIB/bpe_encode.sh $ModelBPE"/"${lang1}.code   $input_file  ./tmp/_bpe_$lang1
+   echo "Tokenizing " $lang1 "with sentencepiece"
+   python3 $LIB/spm_encode.py --model=$ModelSP"/"${lang1}"-"${lang2}"."$lang1".sp" < $input_file > ./tmp/_sp_$lang1
 	
    echo "Translating " $lang1"->"$lang2 " with "$system
-   onmt_translate  -gpu -1 -batch_size 16384 -batch_type tokens -beam_size 5 -model $ModelTransformer"/"$lang1"-"$lang2".transf"  -src ./tmp/_bpe_$lang1  -output ./tmp/_bpe_$lang2 
+   onmt_translate  -gpu -1 -batch_size 16384 -batch_type tokens -beam_size 5 -model $ModelTransformer"/"$lang1"-"$lang2".transf"  -src ./tmp/_sp_$lang1  -output ./tmp/_sp_$lang2 
    
    echo "decoding output"
-   sh $LIB/bpe_decode.sh  ./tmp/_bpe_$lang2  $output_file
+   python3 $LIB/spm_decode.py --model=$ModelSP"/"${lang1}"-"${lang2}"."$lang2".sp" --input_format=piece < ./tmp/_sp_$lang2 > $output_file
 
    echo "Detokenizing the output text"
    cat  $output_file | $LIB/detokenizer.perl > __temp ; mv __temp $output_file
