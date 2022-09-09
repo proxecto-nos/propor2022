@@ -82,7 +82,7 @@ if [ "$lang1" == "es" ]  || [ "$lang1" == "en" ]  && [ "$lang2" == "gl" ]  && [ 
    cat  $input_file | $LIB/tokenizer.perl > __temp ; mv __temp $input_file
    
    echo "Translating " $lang1"->"$lang2 " with "$system
-   onmt_translate -model $ModelLSTM"/"$lang1"-"$lang2".lstm" -src $input_file -output $output_file -gpu -1 -verbose -phrase_table phrase_table.txt -replace_unk
+   onmt_translate -model $ModelLSTM"/"$lang1"-"$lang2".lstm" -src $input_file -output $output_file -gpu -1 -verbose -phrase_table phrase_table_${lang1}-${lang2}.txt -replace_unk
 
    echo "Detokenizing the output text"
    cat  $output_file | $LIB/detokenizer.perl > __temp ; mv __temp $output_file
@@ -97,10 +97,10 @@ if [ "$lang1" == "es" ] || [ "$lang1" == "en" ]  && [ "$lang2" == "gl" ]  && [ "
    sh $LIB/bpe_encode.sh $ModelBPE"/"${lang1}.code   $input_file  ./tmp/_bpe_$lang1
 	
    echo "Translating " $lang1"->"$lang2 " with "$system
-   onmt_translate  -gpu -1 -batch_size 16384 -batch_type tokens -beam_size 5 -model $ModelTransformer"/"$lang1"-"$lang2".transf"  -src ./tmp/_bpe_$lang1  -output ./tmp/_bpe_$lang2 
+   onmt_translate  -gpu -1 -batch_size 16384 -batch_type tokens -beam_size 5 -model $ModelTransformer"/"$lang1"-"$lang2".transf"  -src ./tmp/_bpe_$lang1  -output ./tmp/_bpe_$lang2 -phrase_table phrase_table_${lang1}-${lang2}.txt -replace_unk
    
    echo "decoding output"
-   sh $LIB/bpe_decode.sh  ./tmp/_bpe_$lang2  $output_file
+   sh $LIB/bpe_decode.sh  ./tmp/_bpe_$lang2 > $output_file
 
    echo "Detokenizing the output text"
    cat  $output_file | $LIB/detokenizer.perl > __temp ; mv __temp $output_file
